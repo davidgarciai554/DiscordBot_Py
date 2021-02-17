@@ -10,17 +10,17 @@ with open("output.txt","r") as f:
     for line in f.readlines():
         array.append(line.split(' '))
 
-
+#You have to create a output.txt to write on
 
 bot = commands.Bot(command_prefix='.')
 client = discord.Client()
-token =os.environ.get("YOURTOKEN")
-server=os.environ.get("YOURSERVER")
+token ="YOURTOKEN"
+server="YOURIPSERVER"
 bot.remove_command('help')
 
 @bot.event
 async def on_ready():
-    await bot.get_channel(679366227314999296).send("Encendido")
+    print("Bot on")
 
 @bot.command()
 async def hola(ctx):
@@ -37,7 +37,7 @@ async def help(ctx):
     await ctx.send(embed=embed)
 @bot.command()
 async def server(ctx):
-    response = requests.get('https://api.mcsrvstat.us/2/193.70.15.118:25675')
+    response = requests.get('https://api.mcsrvstat.us/2/'+server)
     if (response.json()["online"] == (True)):
       
         await ctx.send(f"``` Servidor encendido \n Version : " + response.json()["version"] + " \n Ip: "+response.json()["ip"]+ ":"+ str(response.json()["port"]) + " ``` ")
@@ -46,7 +46,7 @@ async def server(ctx):
 
 @bot.command()
 async def players(ctx): 
-    response = requests.get('https://api.mcsrvstat.us/2/193.70.15.118:25675')
+    response = requests.get('https://api.mcsrvstat.us/2/'+server)
     if (response.json()["online"] == (True)):
       if(response.json()["players"]["online"]>0):
         print(response.json()["players"]["list"])
